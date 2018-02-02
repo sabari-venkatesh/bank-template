@@ -1,0 +1,16 @@
+footer {
+    @extend .pt-2;
+    @extend .pb-2;
+    border-top: $base-font-size/2 solid $color-secondary;
+    color: $gray;
+
+    a {
+        &:not(:first-child) {
+            @extend .pl-1;
+        }
+        &:not(:last-child) {
+            @extend .pr-1;
+            border-right: 1px solid;
+        }
+    }
+}

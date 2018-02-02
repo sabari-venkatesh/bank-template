@@ -1,0 +1,11 @@
+$form-label-color: $color-secondary;
+
+.form__group {
+    @include space(1);
+}
+
+.form__label {
+    color: $form-label-color;
+    display: block;
+    @include space(.5, margin-top);
+}
