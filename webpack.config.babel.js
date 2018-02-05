@@ -86,5 +86,10 @@ module.exports = {
             template: 'index.html', //Name of template in ./src
             hash: true,
         }),
+        new HtmlWebpackPlugin({
+            filename: 'dashboard.html', //Name of file in ./dist/
+            template: 'dashboard.html', //Name of template in ./src
+            hash: true,
+        }),
     ]
 }

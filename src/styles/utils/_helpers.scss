@@ -58,6 +58,10 @@
 	text-transform: uppercase;
 }
 
+.text--muted {
+	color: $gray;
+}
+
 @each $prop, $abbr in (margin: m, padding: p) {
 
 	@for $spacer from 0 through $spacers {

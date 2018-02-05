@@ -1,0 +1,14 @@
+.badge {
+    font-size: .75em;
+    border-radius: 50%;
+    background: $color-secondary;
+    color: $white;
+    display: inline-block;
+    text-align: center;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5;
+    position: absolute;
+    @include space(-.5, top);
+    @include space(-.25, right);
+}

@@ -1,4 +1,7 @@
-$nav_color: $white;
+$navbar_spacer_color: lighten(#F29535, 15%);
+$nav_color: $black;
+$nav_bg_color_hover: $color-primary;
+$nav_border_color: lighten($gray, 20%);
 $navoverlay_color: rgba(34, 34, 34, 0.99);
 
 .nav_overlay {
@@ -20,14 +23,24 @@ $navoverlay_color: rgba(34, 34, 34, 0.99);
 }
 
 .navbar {
-	display: flex;
-	flex-direction: row;
-	border-bottom: $base-font-size/2 solid $color-secondary;
+	position: relative;
+
 	> .container {
 		flex: 1;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+	}
+
+	&.is-primary {
+
+	}
+
+	&.is-secondary {
+		display: flex;
+		flex-direction: row;
+		border-bottom: $base-font-size/2 solid $color-secondary;
+		@include space(1);
 	}
 }
 
@@ -41,8 +54,6 @@ $navoverlay_color: rgba(34, 34, 34, 0.99);
 	margin-left: auto;
 }
 
-$navbar-spacer-color: lighten(#F29535, 15%);
-
 .navbar__title {
 	@include font-size(1);
 	text-transform: uppercase;
@@ -51,7 +62,6 @@ $navbar-spacer-color: lighten(#F29535, 15%);
 	text-align: right;
 	min-width: 14em;
 	@extend .pr-4;
-	margin-right: -$gutter-width;
 	position: relative;
 
 	&:before {
@@ -70,144 +80,123 @@ $navbar-spacer-color: lighten(#F29535, 15%);
 	display: flex;
 	flex-direction: row;
 
-	&.is-secondary {
-		.navbar__right & {
-			text-align: right;
-			justify-content: flex-end;
-		}
+	.is-primary & {
+		background: $white;
+		position: absolute;
+		z-index: map-get($layers, navmenu);
+		border: 1px solid $nav_border_color;
+		top: 100%;
+		@extend .pl-2;
+		@extend .pr-2;
+		@include space(2, left);
+		@include space(10, min-width);
+		color: $black;
+		display: none;
+	}
+
+	.navbar__right & {
+		text-align: right;
+		justify-content: flex-end;
+	}
+
+	.navbar__menuitem & {
+		position: static;
+		border: 0;
 	}
 }
 
 .navbar__menuitem {
-	@extend .ml-2;
-	&:last-child {
-		.navbar__link {
-			border-right: 0;
+	position: relative;
+	.is-secondary & {
+		@extend .ml-2;
+		&:last-child {
+			.navbar__link {
+				border-right: 0;
+			}
 		}
 	}
 }
 
 .navbar__link {
 	display: block;
-	@extend .pl-2;
-	@extend .pr-2;
-	@extend .mt-2;
-	@extend .mb-2;
-	border-right: 1px solid $navbar-spacer-color;
-}
-
-
-.preface {
-	background: #424453;
-	color: #fff;
-	@include space(0.5, padding-top);
-	@include space(0.5, padding-bottom);
-
-	.col:last-child {
-		border-left: 1px solid #727481;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		> img {
-
-		}
-	}
-}
-
-.nav {
-	color: $white;
-	text-align: center;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	ul {
-		list-style: none;
-		width: 100%;
-	}
-	li {
-		text-transform: uppercase;
-		font-size: 24px;
-		margin: 12px 0;
-	}
-	a {
-		overflow: hidden;
-		display: block;
-		span {
-			display: inline-block;
-			position: relative;
-			transform: translate3d(0, 0, 0);
-			transition: all .3s cubic-bezier(.7, 0, .3, 1);
-			&:after {
-				content: attr(data-hover);
-				white-space: nowrap;
-				position: absolute;
-				top: 100%;
-				left: 0;
-				font-weight: bold;
-			}
-		}
+	position: relative;
+	@extend .p-2;
+	.is-primary & {
+		border-bottom: 1px solid $nav_border_color;
 		&:hover {
-			span {
-				transform: translate3d(0, -100%, 0);
-			}
+			background-color: $nav_bg_color_hover;
 		}
+	}
+	.is-secondary & {
+		border-right: 1px solid $navbar_spacer_color;
+		@extend .pl-2;
+		@extend .pr-2;
+		@extend .mt-2;
+		@extend .mb-2;
+	}
+
+	.is-parent > & {
+		background: url('../images/icon-menu_expand.png') 95% center no-repeat;
+	}
+
+	&.is-on + .navbar__menu {
+		display: block;
 	}
 }
 
-.nav_toggle {
-	$btn-ratio: (1.5 - 1.5/4) / 2 + rem;
+.navbar__toggle {
 	display: block;
-	position: fixed;
+	position: absolute;
 	z-index: map-get($layers, navtoggle);
-	@include space(1.5, top);
-	@include space(1.5, right);
-	height: 1.5rem;
-	width: 2.5rem;
+	@include space(1, top);
+	@include space(1, left);
+	@include space(1, width);
+	@include space(1, height);
 	span {
 		background: $nav_color;
 		display: inherit;
-		position: absolute;
-		left: 0;
-		top: $btn-ratio;
-		height: 1.5/4 + rem;
-		width: 100%;
-		transition: all 0.5s 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+		position: relative;
 	}
+	span,
+	&:after,
+	&:before {
+		width: 100%;
+		@include space(.25, height);
+		background-color: $nav_color;
+		transition: all 0.3s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+		backface-visibility: hidden;
+	}
+
 	&:after,
 	&:before {
 		content: "";
 		position: absolute;
-		right: 0;
-		width: 80%;
-		height: 1.5/4 + rem;
-		background: $nav_color;
-		transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+		left: 0;
+		top: -9px;
 	}
-	&:before {
-		top: 0;
-		transform-origin: 0% 0%;
-	}
+
 	&:after {
-		bottom: 0;
-		transform-origin: 0% 100%;
+		top: 9px;
 	}
-	&.close {
-		background: transparent;
+
+	&.is-on {
 		span {
-			transform: scale(0);
-			transition: all 0.3s cubic-bezier(0.77, 0.2, 0.05, 1.0);
-			opacity: 0;
-		}
-		&:after,
-		&:before {
-			transition: transform 0.3s 0.3s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+			background: transparent;
 		}
 		&:before {
-			transform: rotate(45deg) translate(2px, -2px);
+			transform: rotate(45deg) translate(5px, 5px);
 		}
 		&:after {
-			transform: rotate(-45deg) translate(2px, 2px);
+		  	transform: rotate(-45deg) translate(7px, -8px);
+		}
+
+		+ .navbar__menu {
+			display: block;
 		}
 	}
+}
+
+.navbar__heading {
+	@include space(3, padding-left);
+	@include font-size(1);
 }
